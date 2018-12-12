@@ -1,8 +1,0 @@
----
-title: "Final Project Write Up"
-author: "Ismail Salim and Marius Dragomir"
-date: "04/12/2018"
-output: html_document
----
-
-# Project
