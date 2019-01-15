@@ -1,10 +1,10 @@
 library(rpart)
 library(dplyr)
 ## Predicting maths grade level (aggregated G3) without G1 and without G2 ##
-# Fitting the tree
+# Train/test split
 train_indices <- sample(1:nrow(df_maths_gl),nrow(df_maths_gl)*0.70)
 test_data <- df_maths_gl[-train_indices,]
-# Base model
+# Fitting base model
 base_model <- rpart(pass ~ ., data=df_maths_gl, subset=train_indices, method="class")
 ## Figures
 plot(base_model)
@@ -30,6 +30,7 @@ for(i in 1:length(folds)){
   conf_matrix <- table(test$pass, temp.predict)
   errors[i] <- 1 - (sum(diag(conf_matrix))/sum(conf_matrix))
 }
+conf_matrix
 paste("Cross-validation accuracy of base tree is:", round(1-mean(errors), 3))
 
 # Pruning the base tree
@@ -41,6 +42,7 @@ accuracy_pruned
 plot(model_pruned)
 text(model_pruned, pretty=1, cex=0.5)
 # Getting holdout accuracy of pruned model
+table(predictions_pruned, test_data$pass)
 paste("Pruned accuracy is", round(accuracy_pruned,3))
 
 # Checking the performance of pruned model using cross-validation
@@ -60,9 +62,25 @@ for(i in 1:length(folds)){
   conf_matrix_pruned <- table(test$pass, temp_pruned_predict)
   pruned_errors[i] <- 1 - (sum(diag(conf_matrix_pruned))/sum(conf_matrix_pruned))
 }
+conf_matrix_pruned
 paste("Cross-validation accuracy of pruned tree is:", round(1-mean(pruned_errors), 3))
 
-
-
-
+# Using the balanced data frame instead
+# Train/test split
+train_indices <- sample(1:nrow(df_maths_gl_balanced),nrow(df_maths_gl_balanced)*0.70)
+test_data <- df_maths_gl_balanced[-train_indices,]
+# Fitting base model
+balanced_model <- rpart(pass ~ ., data=df_maths_gl_balanced, subset=train_indices, method="class")
+## Figures
+plot(balanced_model)
+text(balanced_model, pretty=1, cex=0.5)
+plotcp(balanced_model) 
+# finding optimal
+optimal_cp <- data.frame(balanced_model$cptable) %>% arrange(desc(xerror)) %>% select(CP) %>% top_n(1)
+optimal_cp <- optimal_cp[[1]]
+# Evaluate hold-out accuracy
+predictions <-predict(balanced_model, test_data, type = "class")
+table(predictions, test_data$pass)
+balanced_accuracy <- mean(predictions == test$pass)
+paste("Accuracy using balanced dataset is:", round(balanced_accuracy, 3))
 
