@@ -154,50 +154,66 @@ for(i in 1:ncol(df_por_gl_fail)){
 ## Plotting distributions of selected variables ##
 # Figure 2.1
 maths_grades<- ggplot(df_maths, aes(x=G3)) + geom_histogram(binwidth = 1, fill="#56B4E9") + 
-  theme_minimal() + ggtitle("Maths") + ylab("No. of Students") + scale_x_continuous("Final Grades (G3)")
+  theme_minimal() + theme(axis.text=element_text(size=16), axis.title=element_text(size=16), plot.title=element_text(size=18)) +
+  ggtitle("Maths") + ylab("No. of Students") + scale_x_continuous("Final Grades (G3)")
 maths_pass<- ggplot(df_maths_gl, aes(x=pass, fill=pass)) + geom_bar() + 
   scale_x_discrete("Student Performance", labels=c("Fail", "Pass")) + 
-  theme_minimal() + theme(legend.position = "none", axis.title.y=element_blank())
+  theme_minimal() + theme(legend.position = "none", axis.title.y=element_blank(), 
+                          axis.text=element_text(size=16), axis.title=element_text(size=16), 
+                          plot.title=element_text(size=18))
 por_grades <- ggplot(df_por, aes(x=G3)) + geom_histogram(binwidth = 1, fill="#56B4E9") + 
-  theme_minimal() + ggtitle("Portuguese") + ylab("No. of Students") + scale_x_continuous("Final Grades (G3)")
+  theme_minimal() + theme(axis.text=element_text(size=16), axis.title=element_text(size=16), plot.title=element_text(size=18)) +
+  ggtitle("Portuguese") + ylab("No. of Students") + scale_x_continuous("Final Grades (G3)")
 por_pass<- ggplot(df_por_gl, aes(x=pass, fill=pass)) + geom_bar() + 
   scale_x_discrete("Student Performance", labels=c("Fail", "Pass")) + 
-  theme_minimal() + theme(legend.position = "none", axis.title.y=element_blank())
+  theme_minimal() + theme(legend.position = "none", axis.title.y=element_blank(), 
+                          axis.text=element_text(size=16), axis.title=element_text(size=16), 
+                          plot.title=element_text(size=18))
+# export final plot
+jpeg("images/grades_dist_plot.jpg", width=1000, height=600)
 grid.arrange(maths_grades, maths_pass, por_grades, por_pass, ncol=2)
+dev.off()
+
 
 # Figure 2.2 (absences)
 means_absences_maths <- aggregate(absences~pass, df_maths_gl, mean)
 means_absences_maths[2] <- round(means_absences_maths[2],3)
 means_absences_por <- aggregate(absences~pass, df_por_gl, mean)
 means_absences_por[2] <- round(means_absences_por[2],3)
+# absences for maths and portuguese
+absences_dist_plot_maths <- ggplot(df_maths_gl, aes(x=pass, y=absences, color=pass)) + geom_violin() +
+  stat_summary(fun.y=mean, colour="darkred", geom="point", shape=18, size=3, guide='legend') +
+  ggtitle("Maths") + geom_text(data=means_absences_maths, aes(label=absences, y=absences+1), size=6) + 
+  scale_x_discrete("Student Performance", labels =c("Fail", "Pass")) + ylim(0,30) +  
+  theme_minimal() + theme(legend.position = "none", axis.text=element_text(size=16), axis.title=element_text(size=16), 
+                          plot.title=element_text(size=18))
+absences_dist_plot_por <-  ggplot(df_por_gl, aes(x=pass, y=absences, color=pass)) + geom_violin() +
+  stat_summary(fun.y=mean, colour="darkred", geom="point", shape=18, size=3) +
+  ggtitle("Portuguese") + geom_text(data=means_absences_por, aes(label=absences, y=absences+1), size=6) +
+  scale_x_discrete("Student Performance", labels=c("Fail", "Pass")) + ylim(0,20) + 
+  theme_minimal() + theme(legend.position = "none", axis.text=element_text(size=16), axis.title=element_text(size=16), 
+                          plot.title=element_text(size=18))
+# export final plot
+jpeg("images/absences_dist_plot.jpg", width=1000, height=600)
+grid.arrange(absences_dist_plot_por, absences_dist_plot_maths)
+dev.off()
+
+
+# Figure 2.3 (absences)
 means_goout_maths <- aggregate(goout~pass, df_maths_gl, mean)
 means_goout_maths[2] <- round(means_goout_maths[2],3)
 means_goout_por <- aggregate(goout~pass, df_por_gl, mean)
 means_goout_por[2] <- round(means_goout_por[2],3)
-# absences for maths and portuguese
-absences_dist_plot_maths <- ggplot(df_maths_gl, aes(x=pass, y=absences, color=pass)) + geom_violin() +
-  stat_summary(fun.y=mean, colour="darkred", geom="point", shape=18, size=3, guide='legend') +
-  ggtitle("Maths") + geom_text(data=means_absences_maths, aes(label=absences, y=absences+1)) + 
-  scale_x_discrete("Student Performance", labels =c("Fail", "Pass")) + ylim(0,30) +  
-  theme_minimal() + theme(legend.position = "none")
-absences_dist_plot_por <-  ggplot(df_por_gl, aes(x=pass, y=absences, color=pass)) + geom_violin() +
-  stat_summary(fun.y=mean, colour="darkred", geom="point", shape=18, size=3) +
-  ggtitle("Portuguese") + geom_text(data=means_absences_por, aes(label=absences, y=absences+1)) +
-  scale_x_discrete("Student Performance", labels=c("Fail", "Pass")) + ylim(0,20) + 
-  theme_minimal() + theme(legend.position = "none")
-grid.arrange(absences_dist_plot_por, absences_dist_plot_maths)
-
-#Figure 2.3 (absences)
 # goout for maths and portuguese
 goout_dist_plot_maths <- ggplot(df_maths_gl, aes(x=pass, y=goout, color=pass)) + geom_boxplot() +
-  stat_summary(fun.y=mean, colour="darkred", geom="point", shape=18, size=5, element_text(size=14)) +
-  ggtitle("Maths") + geom_text(data=means_goout_maths, aes(label=goout, y=goout+0.5)) + 
+  stat_summary(fun.y=mean, colour="darkred", geom="point", shape=18, size=5) +
+  ggtitle("Maths") + geom_text(data=means_goout_maths, aes(label=goout, y=goout+0.2), size = 6) + 
   scale_x_discrete("Student Performance", labels =c("Fail", "Pass"))+ ylim(0,5) + 
   theme_minimal() + theme(legend.position = "none", axis.text=element_text(size=16), axis.title=element_text(size=16), 
                           plot.title=element_text(size=18))
 goout_dist_plot_por <-  ggplot(df_por_gl, aes(x=pass, y=goout, color=pass)) + geom_boxplot() +
   stat_summary(fun.y=mean, colour="darkred", geom="point", shape=18, size=5) +
-  ggtitle("Portuguese") + geom_text(data=means_goout_por, aes(label=goout, y=goout+0.5)) + 
+  ggtitle("Portuguese") + geom_text(data=means_goout_por, aes(label=goout, y=goout+0.2), size=6) + 
   scale_x_discrete("Student Performance", labels =c("Fail", "Pass"))+ ylim(0,5) + 
   theme_minimal() + theme(legend.position = "none", axis.text=element_text(size=16), axis.title=element_text(size=16), 
                           plot.title=element_text(size=18))
@@ -205,6 +221,7 @@ goout_dist_plot_por <-  ggplot(df_por_gl, aes(x=pass, y=goout, color=pass)) + ge
 jpeg("images/goout_dist_plot.jpg", width=1000, height=600)
 grid.arrange(goout_dist_plot_por, goout_dist_plot_maths, ncol=2)
 dev.off()
+
 
 ## Correlations between variables for Maths and Portuguese ##
 # maths goout vs g3
@@ -220,6 +237,7 @@ cor(df_por$goout, df_por$G3, method="spearman") # -0.104
 cor(df_por$absences, df_por$G3, method="pearson") # -0.091
 # portuguese goout vs absences
 cor(df_por$goout, df_por$absences, method="spearman") # 0.104
+
 
 # plotting correlations of goout and absences
 # Figure 2.4 (goout and absences)
@@ -237,6 +255,7 @@ goout_absences_plot_por <- ggplot(df_por_gl, aes(x=goout, y=absences, color=pass
 jpeg("images/goout_absences_plot.jpg", width=1000, height=500)
 grid.arrange(goout_absences_plot_maths, goout_absences_plot_por, ncol=2)
 dev.off()
+
 
 # Figure 2.5 Distribution of schoolsup for failures and passers
 # schoolsup yes rates
