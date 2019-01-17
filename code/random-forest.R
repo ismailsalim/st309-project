@@ -9,22 +9,32 @@ control <- trainControl(method='repeatedcv', number=10, repeats=3)
 mtry <- sqrt(ncol(df_maths_gl[,-1]))
 tunegrid <- expand.grid(.mtry=mtry)
 rf_base <- train(factor(pass)~., 
-                    data=df_maths_gl_balanced, 
+                    data=df_maths_gl, 
                     method='rf', 
                     metric='Accuracy', 
                     tuneGrid=tunegrid, 
                     trControl=control)
 print(rf_base)
+varImp(rf_base)
 
 # Using random search to choose 15 random values for mtry
 rf_random <- train(factor(pass) ~ .,
-                   data = df_maths_gl_balanced,
+                   data = df_maths_gl,
                    method = 'rf',
                    metric = 'Accuracy',
                    tuneLength  = 15, 
                    trControl = control)
 print(rf_random)
+varImp(rf_random)
 # Figures
 plot(rf_random)
+
+### Predicting maths grade level with G1
+
+
+### Predicting maths greade level with G1 and G2
+
+
+### Tuning model with G1 and G2
 
 

@@ -17,13 +17,10 @@ df_maths_gl3 <- df_maths %>% mutate(pass = G3>=10) %>% select(-G3)
 df_por_gl3 <- df_por %>% mutate(pass = G3>=10) %>% select(-G3) 
 
 
-
-#Balancing the data frames
-
-#MATHS
+# Balancing the data frames
+# MATHS
 # Indices of Maths passers
-
-#without G1, G2, G3
+# Without G1, G2, G3
 pass_indices <- which(df_maths_gl$pass == T)
 fail_indices <- which(df_maths_gl$pass == F)
 # Number of fails
@@ -32,7 +29,7 @@ failed_number <- length(which(df_maths_gl$pass == F))
 pass_sampled <- sample(pass_indices, failed_number)
 df_maths_gl_balanced <- df_maths_gl[c(pass_sampled,fail_indices),]
 
-#without G2, G3
+# Without G2, G3
 pass_indices <- which(df_maths_gl2$pass == T)
 fail_indices <- which(df_maths_gl2$pass == F)
 # Number of fails
@@ -41,7 +38,7 @@ failed_number <- length(which(df_maths_gl2$pass == F))
 pass_sampled <- sample(pass_indices, failed_number)
 df_maths_gl_balanced2 <- df_maths_gl2[c(pass_sampled,fail_indices),]
 
-#without G3
+# Without G3
 pass_indices <- which(df_maths_gl3$pass == T)
 fail_indices <- which(df_maths_gl3$pass == F)
 # Number of fails
@@ -81,5 +78,9 @@ failed_number <- length(which(df_por_gl3$pass == F))
 pass_sampled <- sample(pass_indices, failed_number)
 df_por_gl_balanced3 <- df_por_gl3[c(pass_sampled,fail_indices),]
 
-
+######## G3 categorised into erasmus 
+df_maths_cat <- df_maths %>% 
+  mutate(category=cut(G3, breaks=c(-Inf, 9, 11, 13, 15, 20), labels=c("V","IV","III", "II","I")))
+df_por_cat <- df_por %>% 
+  mutate(category=cut(G3, breaks=c(-Inf, 9, 11, 13, 15, 20), labels=c("V","IV","III", "II","I")))
 
