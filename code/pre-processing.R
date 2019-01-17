@@ -1,12 +1,29 @@
 ## Data pre-processing ##
 library(dplyr)
+
 df_por <- read.csv(file="data/student-por.csv", sep=";")
 df_maths <- read.csv(file="data/student-mat.csv", sep=";")
+
+#dataframe without G1, G2, G3
 df_maths_gl <- df_maths %>% mutate(pass = G3>=10) %>% select(-G1, -G2, -G3)
 df_por_gl <- df_por %>% mutate(pass = G3>=10) %>% select(-G1, -G2, -G3)
 
-# Balancing the data frames
+#dataframe withoug G2, G3 (we now add G1 to our current information)
+df_maths_gl2 <- df_maths %>% mutate(pass = G3>=10) %>% select(-G2, -G3) 
+df_por_gl2 <- df_por %>% mutate(pass = G3>=10) %>% select(-G2, -G3) 
+
+#data frame without G3 (we now add G2 to our current information)
+df_maths_gl3 <- df_maths %>% mutate(pass = G3>=10) %>% select(-G3) 
+df_por_gl3 <- df_por %>% mutate(pass = G3>=10) %>% select(-G3) 
+
+
+
+#Balancing the data frames
+
+#MATHS
 # Indices of Maths passers
+
+#without G1, G2, G3
 pass_indices <- which(df_maths_gl$pass == T)
 fail_indices <- which(df_maths_gl$pass == F)
 # Number of fails
@@ -15,7 +32,29 @@ failed_number <- length(which(df_maths_gl$pass == F))
 pass_sampled <- sample(pass_indices, failed_number)
 df_maths_gl_balanced <- df_maths_gl[c(pass_sampled,fail_indices),]
 
+#without G2, G3
+pass_indices <- which(df_maths_gl2$pass == T)
+fail_indices <- which(df_maths_gl2$pass == F)
+# Number of fails
+failed_number <- length(which(df_maths_gl2$pass == F))
+# Sample and balance
+pass_sampled <- sample(pass_indices, failed_number)
+df_maths_gl_balanced2 <- df_maths_gl2[c(pass_sampled,fail_indices),]
+
+#without G3
+pass_indices <- which(df_maths_gl3$pass == T)
+fail_indices <- which(df_maths_gl3$pass == F)
+# Number of fails
+failed_number <- length(which(df_maths_gl3$pass == F))
+# Sample and balance
+pass_sampled <- sample(pass_indices, failed_number)
+df_maths_gl_balanced3 <- df_maths_gl3[c(pass_sampled,fail_indices),]
+
+
+#PORTUGUESE
 # Indices of Portuguese passers
+
+#without G1, G2, G3
 pass_indices <- which(df_por_gl$pass == T)
 fail_indices <- which(df_por_gl$pass == F)
 # Number of fails
@@ -23,4 +62,24 @@ failed_number <- length(which(df_por_gl$pass == F))
 # Sample and balance
 pass_sampled <- sample(pass_indices, failed_number)
 df_por_gl_balanced <- df_por_gl[c(pass_sampled,fail_indices),]
+
+#without G2, G3
+pass_indices <- which(df_por_gl2$pass == T)
+fail_indices <- which(df_por_gl2$pass == F)
+# Number of fails
+failed_number <- length(which(df_por_gl2$pass == F))
+# Sample and balance
+pass_sampled <- sample(pass_indices, failed_number)
+df_por_gl_balanced2 <- df_por_gl2[c(pass_sampled,fail_indices),]
+
+#withoug G3
+pass_indices <- which(df_por_gl3$pass == T)
+fail_indices <- which(df_por_gl3$pass == F)
+# Number of fails
+failed_number <- length(which(df_por_gl3$pass == F))
+# Sample and balance
+pass_sampled <- sample(pass_indices, failed_number)
+df_por_gl_balanced3 <- df_por_gl3[c(pass_sampled,fail_indices),]
+
+
 
