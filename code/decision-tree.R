@@ -51,8 +51,7 @@ accuracy_pruned <- mean(predictions_pruned == test_data$pass)
 conf_matrix_pruned
 paste("Pruned accuracy is", round(accuracy_pruned,3))
 # Figures
-plot(model_pruned)
-text(model_pruned, pretty=1, cex=0.5)
+fancyRpartPlot(model_pruned)
 
 # Checking the performance of pruned model using cross-validation
 formula <- "pass ~ ."
@@ -80,8 +79,7 @@ test_data <- df_maths_gl_balanced[-train_indices,]
 # Fitting base model
 balanced_model <- rpart(pass ~ ., data=df_maths_gl_balanced, subset=train_indices, method="class")
 ## Figures
-plot(balanced_model)
-text(balanced_model, pretty=1, cex=0.5)
+fancyRpartPlot(balanced_model)
 plotcp(balanced_model) 
 # finding optimal
 optimal_cp <- data.frame(balanced_model$cptable) %>% arrange(desc(xerror)) %>% select(CP) %>% top_n(1)
