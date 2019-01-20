@@ -3,10 +3,15 @@ library(mlbench)
 library(caret)
 library(e1071)
 
+#Random Forests
+
 # trainin control parameters
 control <- trainControl(method='repeatedcv', number=10, repeats=3)
 
-## Predicting maths grade level (aggregated G3) without G1 and without G2 
+# Predicting maths and portuguese grade levels (aggregated G3) without G1 and without G2 
+
+##MATHS##
+
 mtry <- sqrt(ncol(df_maths_gl[,-1])) # set mtry = square root of number of columns 
 tunegrid <- expand.grid(.mtry=mtry)
 rf_base_maths <- train(factor(pass)~., 
@@ -29,7 +34,8 @@ var_imp_maths <- varImp(rf_random_maths)
 # Figures
 mtry_plot_maths <- plot(rf_random_maths)
 
-# Predicting portuguese grade level (aggregated G3) without G1 and without G2 
+
+##PORTUGUESE## 
 mtry <- sqrt(ncol(df_por_gl[,-1])) # set mtry = square root of number of features 
 tunegrid <- expand.grid(.mtry=mtry)
 rf_base_por <- train(factor(pass)~., 
@@ -52,7 +58,14 @@ varImp(rf_random_por)
 # Figures
 mtry_plot_por <- plot(rf_random_por)
 
-### Predicting maths grade level with G1
+
+
+
+
+# Predicting maths and portuguese grade levels (aggregated G3) with G1 added
+
+##MATHS##
+
 mtry <- sqrt(ncol(df_maths_gl2[,-1]))
 tunegrid <- expand.grid(.mtry=mtry)
 rf_base <- train(factor(pass)~., 
@@ -75,7 +88,8 @@ var_imp_maths2 <- varImp(rf_random_maths2)
 # Figures
 mtry_plot_maths2 <- plot(rf_random_maths2)
 
-### Predicting portuguese grade level with G1
+
+##PORTUGUESE##
 mtry <- sqrt(ncol(df_por_gl2[,-1]))
 tunegrid <- expand.grid(.mtry=mtry)
 rf_base <- train(factor(pass)~., 
@@ -100,7 +114,11 @@ mtry_plot_por2 <- plot(rf_random_por2)
 
 
 
-### Predicting maths grade level with G1 and G2
+
+# Predicting maths and portuguese grade levels (aggregated G3) with G1 and G2 added
+
+##MATHS##
+
 mtry <- sqrt(ncol(df_maths_gl3[,-1]))
 tunegrid <- expand.grid(.mtry=mtry)
 rf_maths <- train(factor(pass)~., 
@@ -122,7 +140,9 @@ print(rf_random_maths3)
 var_imp_maths3 <- varImp(rf_random_maths3)
 # Figures
 mtry_plot_maths3 <- plot(rf_random_maths3)
-### Predicting portguese grade level with G1 and G2
+
+
+##PORTUGUESE##
 mtry <- sqrt(ncol(df_por_gl3[,-1]))
 tunegrid <- expand.grid(.mtry=mtry)
 rf_por <- train(factor(pass)~., 
@@ -147,7 +167,12 @@ mtry_plot_por3 <- plot(rf_random_por3)
 
 
 
-### Predicting erasmus grade categories for maths
+
+# FINAL MODEL
+# Predicting erasmus grade categories
+
+##MATHS##
+
 mtry <- sqrt(ncol(df_maths_cat[,-1]))
 tunegrid <- expand.grid(.mtry=mtry)
 rf_maths2 <- train(factor(category)~., 
@@ -158,7 +183,7 @@ rf_maths2 <- train(factor(category)~.,
                  trControl=control)
 print(rf_maths2)
 varImp(rf_maths2)
-# # Using random search to choose 15 random values for mtry
+# Using random search to choose 15 random values for mtry
 rf_maths_cat <- train(factor(category) ~ .,
                         data = df_maths_cat,
                         method = 'rf',
@@ -170,7 +195,9 @@ var_imp_maths_cat <- varImp(rf_maths_cat)
 # Figures
 mtry_plot_maths_cat<- plot(rf_maths_cat)
 
-### Predicting erasmus grade categories for portuguese
+
+##PORTUGUESE##
+
 mtry <- sqrt(ncol(df_por_cat[,-1]))
 tunegrid <- expand.grid(.mtry=mtry)
 rf_por2 <- train(factor(category)~., 
