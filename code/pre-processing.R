@@ -80,7 +80,6 @@ df_por_gl_balanced3 <- df_por_gl3[c(pass_sampled,fail_indices),]
 
 ######## G3 categorised into erasmus 
 df_maths_cat <- df_maths %>% 
-  mutate(category=cut(G3, breaks=c(-Inf, 9, 11, 13, 15, 20), labels=c("V","IV","III", "II","I")))
+  mutate(category=cut(G3, breaks=c(-Inf, 9, 11, 13, 15, 20), labels=c("V","IV","III", "II","I"))) %>% select(-G3)
 df_por_cat <- df_por %>% 
-  mutate(category=cut(G3, breaks=c(-Inf, 9, 11, 13, 15, 20), labels=c("V","IV","III", "II","I")))
-
+  mutate(category=cut(G3, breaks=c(-Inf, 9, 11, 13, 15, 20), labels=c("V","IV","III", "II","I"))) %>% select(-G3)
