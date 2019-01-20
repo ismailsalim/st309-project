@@ -20,13 +20,10 @@ sapply(df_maths, function(x) sum(is.na(x))) # there are no missing values
 # information for table that describes variables
 str(df_maths)
 str(df_por)
-# add information about the variables
-
 
 # dividing G3 into two groups (G3 > 10) and removing G1,G2, and G3
 df_maths_gl <- df_maths %>% mutate(pass = G3>=10) %>% select(-G1, -G2, -G3)
 df_por_gl <- df_por %>% mutate(pass = G3>=10) %>% select(-G1, -G2, -G3)
-
 
 # plotting distributions ofvariabels across pass and fail groups
 ggplot(df_maths_gl, aes(x=sex, fill=pass)) + geom_bar(aes(y=(..count..)/sum(..count..))) + 
