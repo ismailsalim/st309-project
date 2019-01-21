@@ -32,8 +32,9 @@ rf_random_maths <- train(factor(pass) ~ .,
 print(rf_random_maths)
 var_imp_maths <- varImp(rf_random_maths)
 # Figures
-mtry_plot_maths <- plot(rf_random_maths)
-
+jpeg("images/rf_random_maths.jpg")
+plot(rf_random_maths, main="Maths", xlab="No. of Randomly Selected Predictors")
+dev.off()
 
 ##PORTUGUESE## 
 mtry <- sqrt(ncol(df_por_gl[,-1])) # set mtry = square root of number of features 
@@ -56,8 +57,9 @@ rf_random_por <- train(factor(pass) ~ .,
 print(rf_random_por)
 varImp(rf_random_por)
 # Figures
-mtry_plot_por <- plot(rf_random_por)
-
+jpeg("images/rf_random_por.jpg")
+plot(rf_random_por, main = "Portuguese", xlab="No. of Randomly Selected Predictors")
+dev.off()
 
 
 
@@ -86,7 +88,10 @@ rf_random_maths2 <- train(factor(pass) ~ .,
 print(rf_random_maths2)
 var_imp_maths2 <- varImp(rf_random_maths2)
 # Figures
-mtry_plot_maths2 <- plot(rf_random_maths2)
+jpeg("images/rf_random_maths2.jpg")
+plot(rf_random_maths2, main = "Maths", xlab="No. of Randomly Selected Predictors")
+dev.off()
+
 
 
 ##PORTUGUESE##
@@ -110,7 +115,9 @@ rf_random_por2 <- train(factor(pass) ~ .,
 print(rf_random_por2)
 var_imp_por2 <- varImp(rf_random_por2)
 # Figures
-mtry_plot_por2 <- plot(rf_random_por2)
+jpeg("images/rf_random_por2.jpg")
+plot(rf_random_por2, main = "Portguese", xlab="No. of Randomly Selected Predictors")
+dev.off()
 
 
 
@@ -139,7 +146,10 @@ rf_random_maths3 <- train(factor(pass) ~ .,
 print(rf_random_maths3)
 var_imp_maths3 <- varImp(rf_random_maths3)
 # Figures
-mtry_plot_maths3 <- plot(rf_random_maths3)
+jpeg("images/rf_random_maths3.jpg")
+plot(rf_random_maths3, main = "Maths", xlab="No. of Randomly Selected Predictors")
+dev.off()
+
 
 
 ##PORTUGUESE##
@@ -163,16 +173,15 @@ rf_random_por3 <- train(factor(pass) ~ .,
 print(rf_random_por3)
 var_imp_por3 <- varImp(rf_random_por3)
 # Figures
-mtry_plot_por3 <- plot(rf_random_por3)
-
-
+jpeg("images/rf_random_por3.jpg")
+plot(rf_random_por3, main = "Portuguese", xlab="No. of Randomly Selected Predictors")
+dev.off()
 
 
 # FINAL MODEL
 # Predicting erasmus grade categories
 
 ##MATHS##
-
 mtry <- sqrt(ncol(df_maths_cat[,-1]))
 tunegrid <- expand.grid(.mtry=mtry)
 rf_maths2 <- train(factor(category)~., 
@@ -193,7 +202,9 @@ rf_maths_cat <- train(factor(category) ~ .,
 print(rf_maths_cat)
 var_imp_maths_cat <- varImp(rf_maths_cat)
 # Figures
-mtry_plot_maths_cat<- plot(rf_maths_cat)
+jpeg("images/rf_random_maths_cat.jpg")
+plot(rf_maths_cat, main = "Maths", xlab="No. of Randomly Selected Predictors")
+dev.off()
 
 
 ##PORTUGUESE##
@@ -218,5 +229,8 @@ rf_por_cat <- train(factor(category) ~ .,
 print(rf_por_cat)
 var_imp_por_cat <- varImp(rf_por_cat)
 # Figures
-mtry_plot_por_cat<- plot(rf_por_cat)
+jpeg("images/rf_random_por_cat.jpg")
+plot(rf_por_cat, main = "Portuguese", xlab="No. of Randomly Selected Predictors")
+dev.off()
+
 

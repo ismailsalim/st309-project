@@ -26,7 +26,14 @@ jpeg("images/base_plot_maths.jpg", width=500, height=600)
 rpart.plot(base_model, main="Maths", yesno=2)
 dev.off()
 # Figure 3.2
-plotcp(base_model)
+jpeg("images/conf_matrix_maths.jpg", width=500, height=600)
+fourfoldplot(conf_matrix_maths, main = "Maths")
+dev.off()
+# Figure 3.3
+jpeg("images/cp_plot_maths.jpg", width=500, height=600)
+plotcp(base_model, sub="Maths", cex.lab = 1)
+dev.off()
+
 
 # Checking the performance of base model (potential bias of simple hold out) using cross-validation
 formula <- "pass ~ ."
@@ -44,9 +51,13 @@ cv_accuracy_maths <- round(1-mean(errors), 3)
 
 # Pruning the base tree
 model_pruned <- prune(base_model, cp = optimal_cp)
-predictions_pruned <- predict(model_pruned, test_data, type = "class")
-conf_matrix_pruned_maths <- table(predictions_pruned, test_data$pass)
-accuracy_pruned_maths <- mean(predictions_pruned == test_data$pass)
+Predicted <- predict(model_pruned, test_data, type = "class")
+conf_matrix_pruned_maths <- table(Predicted, test_data$pass)
+accuracy_pruned_maths <- mean(Predicted== test_data$pass)
+# PLOTS
+jpeg("images/conf_matrix_pruned_maths.jpg", width=500, height=600)
+fourfoldplot(conf_matrix_pruned_maths, main = "Maths")
+dev.off()
 
 # Checking the performance of pruned model using cross-validation
 formula <- "pass ~ ."
@@ -79,8 +90,15 @@ predictions <- predict(base_model, test_data, type = "class")
 conf_matrix_por <- table(predictions, test_data$pass)
 base_accuracy_por <- mean(predictions == test_data$pass)
 # Plots
-dt_plot_por <- fancyRpartPlot(base_model)
-cp_plot_por <- plotcp(base_model) 
+jpeg("images/base_plot_por.jpg", width=500, height=600)
+rpart.plot(base_model, main="Portuguese", yesno=2)
+dev.off()
+jpeg("images/conf_matrix_por.jpg", width=500, height=600)
+fourfoldplot(conf_matrix_por, main = "Portuguese")
+dev.off()
+jpeg("images/cp_plot_por.jpg", width=500, height=600)
+cp_plot_por <- plotcp(base_model, cex.lab=1, sub="Portuguese") 
+dev.off()
 
 # Checking the performance of base model using cross-validation
 formula <- "pass ~ ."
@@ -101,6 +119,10 @@ model_pruned <- prune(base_model, cp = optimal_cp)
 predictions_pruned <- predict(model_pruned, test_data, type = "class")
 conf_matrix_pruned_por <- table(predictions_pruned, test_data$pass)
 accuracy_pruned_por <- mean(predictions_pruned == test_data$pass)
+# PLOTS
+jpeg("images/conf_matrix_pruned_por.jpg", width=500, height=600)
+fourfoldplot(conf_matrix_pruned_por, main = "Portuguese")
+dev.off()
 
 # Checking the performance of pruned model using cross-validation
 formula <- "pass ~ ."
@@ -134,8 +156,15 @@ predictions <-predict(balanced_model, test_data, type = "class")
 conf_matrix_balanced_maths <- table(predictions, test_data$pass)
 balanced_accuracy_maths <- (sum(diag(conf_matrix_balanced))/sum(conf_matrix_balanced))
 # Figures
-dt_plot_maths_balanced <- fancyRpartPlot(balanced_model)
-cp_plot_maths_balanced <- plotcp(balanced_model) 
+jpeg("images/base_plot_maths_balanced.jpg", width=500, height=600)
+rpart.plot(balanced_model, main="Maths (Balanced)", yesno=2)
+dev.off()
+jpeg("images/cp_plot_maths_balanced.jpg", width=500, height=600)
+cp_plot_por <- plotcp(balanced_model, cex.lab=1, sub="Maths (Balanced)") 
+dev.off()
+jpeg("images/conf_matrix_maths_balanced.jpg", width=500, height=600)
+fourfoldplot(conf_matrix_balanced_maths, main = "Maths (Balanced)")
+dev.off()
 
 ## Portuguese
 # Train/test split
@@ -151,8 +180,15 @@ predictions <-predict(balanced_model, test_data, type = "class")
 conf_matrix_balanced_por <- table(predictions, test_data$pass)
 balanced_accuracy_por <- mean(predictions == test$pass)
 ## Figures
-dt_plot_por_balanced <- fancyRpartPlot(balanced_model)
-cp_plot_por_balanced <- plotcp(balanced_model) 
+jpeg("images/base_plot_por_balanced.jpg", width=500, height=600)
+rpart.plot(balanced_model, main="Portuguese (Balanced)", yesno=2)
+dev.off()
+jpeg("images/cp_plot_por_balanced.jpg", width=500, height=600)
+cp_plot_por <- plotcp(balanced_model, cex.lab=1, sub="Portuguese (Balanced)") 
+dev.off()
+jpeg("images/conf_matrix_por_balanced.jpg", width=500, height=600)
+fourfoldplot(conf_matrix_balanced_por, main = "Portuguese (Balanced)")
+dev.off()
 
 
 ## Results and Figures to reference ##
