@@ -95,7 +95,3 @@ auc_por_reduced <- performance(pred, measure = "auc")
 auc_por_reduced <- auc@y.values[[1]]
 # Plots
 plot(performance_por_reduced)
-
-
-
-

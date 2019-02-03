@@ -1,8 +1,3 @@
-### READING DATA ###
-
-df_maths <- read.csv(file="data/student-mat.csv", sep=";")
-df_por <- read.csv(file="data/student-por.csv", sep=";")
-
 library(gridExtra)
 library(dplyr)
 library(ggplot2)

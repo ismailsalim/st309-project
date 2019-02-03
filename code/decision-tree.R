@@ -47,12 +47,12 @@ for(i in 1:length(folds)){
   conf_matrix <- table(test$pass, temp.predict)
   errors[i] <- 1 - (sum(diag(conf_matrix))/sum(conf_matrix))
 }
-cv_accuracy_maths <- round(1-mean(errors), 3)
+cv_accuracy_maths <- 1-mean(errors)
 
 # Pruning the base tree
 model_pruned <- prune(base_model, cp = optimal_cp)
-Predicted <- predict(model_pruned, test_data, type = "class")
-conf_matrix_pruned_maths <- table(Predicted, test_data$pass)
+predictions_pruned <- predict(model_pruned, test_data, type = "class")
+conf_matrix_pruned_maths <- table(predictions_pruned, test_data$pass)
 accuracy_pruned_maths <- mean(Predicted== test_data$pass)
 # PLOTS
 jpeg("images/conf_matrix_pruned_maths.jpg", width=500, height=600)
@@ -74,7 +74,7 @@ for(i in 1:length(folds)){
   conf_matrix_pruned <- table(test$pass, temp_pruned_predict)
   pruned_errors[i] <- 1 - (sum(diag(conf_matrix_pruned))/sum(conf_matrix_pruned))
 }
-cv_accuracy_pruned_maths <- round(1-mean(pruned_errors), 3)
+cv_accuracy_pruned_maths <- 1-mean(pruned_errors)
 
 ## PORTUGUESE ##
 # Train/test split
@@ -112,7 +112,7 @@ for(i in 1:length(folds)){
   conf_matrix <- table(test$pass, temp.predict)
   errors[i] <- 1 - (sum(diag(conf_matrix))/sum(conf_matrix))
 }
-cv_accuracy_por <- round(1-mean(errors), 3)
+cv_accuracy_por <- 1-mean(errors)
 
 # Pruning the base tree
 model_pruned <- prune(base_model, cp = optimal_cp)
@@ -139,7 +139,7 @@ for(i in 1:length(folds)){
   conf_matrix_pruned <- table(test$pass, temp_pruned_predict)
   pruned_errors[i] <- 1 - (sum(diag(conf_matrix_pruned))/sum(conf_matrix_pruned))
 }
-cv_accuracy_pruned_por <- round(1-mean(pruned_errors), 3)
+cv_accuracy_pruned_por <-1-mean(pruned_errors)
 
 ### Using the balanced dataframe instead ###
 ## Maths
@@ -165,6 +165,16 @@ dev.off()
 jpeg("images/conf_matrix_maths_balanced.jpg", width=500, height=600)
 fourfoldplot(conf_matrix_balanced_maths, main = "Maths (Balanced)")
 dev.off()
+# Pruning the balanced tree
+model_pruned <- prune(balanced_model, cp = optimal_cp)
+predictions_pruned <- predict(model_pruned, test_data, type = "class")
+conf_matrix_pruned_maths <- table(predictions_pruned, test_data$pass)
+accuracy_pruned_maths <- mean(predictions_pruned == test_data$pass)
+# PLOTS
+jpeg("images/conf_matrix_pruned_maths_balanced.jpg", width=500, height=600)
+fourfoldplot(conf_matrix_pruned_maths, main = "Maths")
+dev.off()
+
 
 ## Portuguese
 # Train/test split
@@ -189,36 +199,13 @@ dev.off()
 jpeg("images/conf_matrix_por_balanced.jpg", width=500, height=600)
 fourfoldplot(conf_matrix_balanced_por, main = "Portuguese (Balanced)")
 dev.off()
-
-
-## Results and Figures to reference ##
-conf_matrix_maths 
-conf_matrix_por
-base_accuracy_maths 
-base_accuracy_por
-cv_accuracy_maths
-cv_accuracy_por
-
-
-dt_plot_maths
-cp_plot_maths
-dt_plot_por
-cp_plot_por
-
-conf_matrix_pruned_maths 
-accuracy_pruned_maths 
-cv_accuracy_pruned_maths 
-conf_matrix_pruned_por 
-accuracy_pruned_por 
-cv_accuracy_pruned_por 
-
-conf_matrix_balanced_maths
-balanced_accuracy_maths
-conf_matrix_balanced_por
-balanced_accuracy_por
-dt_plot_maths_balanced
-cp_plot_maths_balanced
-dt_plot_por_balanced
-cp_plot_por_balanced
-
+# Pruning the balanced tree
+model_pruned <- prune(balanced_model, cp = optimal_cp)
+predictions_pruned <- predict(model_pruned, test_data, type = "class")
+conf_matrix_pruned_por <- table(predictions_pruned, test_data$pass)
+accuracy_pruned_por <- mean(predictions_pruned == test_data$pass)
+# PLOTS
+jpeg("images/conf_matrix_pruned_por_balanced.jpg", width=500, height=600)
+fourfoldplot(conf_matrix_pruned_maths, main = "Portuguese")
+dev.off()
 
