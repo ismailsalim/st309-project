@@ -1,4 +1,5 @@
 library(dplyr)
+### PRE-PROCESSING ###
 
 # Reading the csv files
 df_maths <- read.csv(file="data/student-mat.csv", sep=";")

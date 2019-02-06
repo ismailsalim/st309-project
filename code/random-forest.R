@@ -1,8 +1,8 @@
 library(randomForest)
 library(caret)
 library(ggplot2)
+### RANDOM FORESTS ###
 
-# Random Forest
 # Training control parameters
 control <- trainControl(method='repeatedcv', number=10, repeats=3)
 
@@ -28,7 +28,7 @@ rf_random_maths <- train(factor(pass) ~ .,
 rf_random_maths
 varImp(rf_random_maths)
 # Figures
-jpeg("images/rf_random_maths.jpg")
+jpeg("images/randomforest/rf_random_maths.jpg")
 plot(rf_random_maths, main="Maths", xlab="No. of Randomly Selected Predictors")
 dev.off()
 
@@ -53,7 +53,7 @@ rf_random_por <- train(factor(pass) ~ .,
 rf_random_por
 varImp(rf_random_por)
 # Figures
-jpeg("images/rf_random_por.jpg")
+jpeg("images/randomforest/rf_random_por.jpg")
 plot(rf_random_por, main = "Portuguese", xlab="No. of Randomly Selected Predictors")
 dev.off()
 
@@ -80,7 +80,7 @@ rf_random_maths2 <- train(factor(pass) ~ .,
 rf_random_maths2
 varImp(rf_random_maths2)
 # Figures
-jpeg("images/rf_random_maths2.jpg")
+jpeg("images/randomforest/rf_random_maths2.jpg")
 plot(rf_random_maths2, main = "Maths", xlab="No. of Randomly Selected Predictors")
 dev.off()
 
@@ -105,7 +105,7 @@ rf_random_por2 <- train(factor(pass) ~ .,
 print(rf_random_por2)
 varImp(rf_random_por2)
 # Figures
-jpeg("images/rf_random_por2.jpg")
+jpeg("images/randomforest/rf_random_por2.jpg")
 plot(rf_random_por2, main = "Portguese", xlab="No. of Randomly Selected Predictors")
 dev.off()
 
@@ -132,7 +132,7 @@ rf_random_maths3 <- train(factor(pass) ~ .,
 print(rf_random_maths3)
 print(varImp(rf_random_maths3))
 # Figures
-jpeg("images/rf_random_maths3.jpg")
+jpeg("images/randomforest/rf_random_maths3.jpg")
 plot(rf_random_maths3, main = "Maths", xlab="No. of Randomly Selected Predictors")
 dev.off()
 
@@ -157,7 +157,7 @@ rf_random_por3 <- train(factor(pass) ~ .,
 print(rf_random_por3)
 varImp(rf_random_por3)
 # Figures
-jpeg("images/rf_random_por3.jpg")
+jpeg("images/randomforest/rf_random_por3.jpg")
 plot(rf_random_por3, main = "Portuguese", xlab="No. of Randomly Selected Predictors")
 dev.off()
 
@@ -184,7 +184,7 @@ rf_maths_cat <- train(factor(category) ~ .,
 rf_maths_cat
 varImp(rf_maths_cat)
 # Figures
-jpeg("images/rf_random_maths_cat.jpg")
+jpeg("images/randomforest/rf_random_maths_cat.jpg")
 plot(rf_maths_cat, main = "Maths", xlab="No. of Randomly Selected Predictors")
 dev.off()
 
@@ -209,9 +209,8 @@ rf_por_cat <- train(factor(category) ~ .,
 print(rf_por_cat)
 var_imp_por_cat <- varImp(rf_por_cat)
 # Figures
-jpeg("images/rf_random_por_cat.jpg")
+jpeg("images/randomforest/rf_random_por_cat.jpg")
 plot(rf_por_cat, main = "Portuguese", xlab="No. of Randomly Selected Predictors")
 dev.off()
-
 
 

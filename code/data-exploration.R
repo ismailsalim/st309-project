@@ -1,7 +1,6 @@
 library(gridExtra)
 library(dplyr)
 library(ggplot2)
-
 ### DATA EXPLORATION ###
 
 # dimensions of tables
@@ -187,12 +186,12 @@ absences_dist_plot_por <-  ggplot(df_por_gl, aes(x=pass, y=absences, color=pass)
   theme_minimal() + theme(legend.position = "none", axis.text=element_text(size=16), axis.title=element_text(size=16), 
                           plot.title=element_text(size=18))
 # export final plot
-jpeg("images/absences_dist_plot.jpg", width=1000, height=600)
-grid.arrange(absences_dist_plot_por, absences_dist_plot_maths)
+jpeg("images/preprocessing/absences_dist_plot.jpg", width=1000, height=600)
+grid.arrange(absences_dist_plot_maths, absences_dist_plot_por)
 dev.off()
 
 
-# Figure 2.3 (absences)
+# Figure 2.3 (goout)
 means_goout_maths <- aggregate(goout~pass, df_maths_gl, mean)
 means_goout_maths[2] <- round(means_goout_maths[2],3)
 means_goout_por <- aggregate(goout~pass, df_por_gl, mean)
@@ -211,8 +210,8 @@ goout_dist_plot_por <-  ggplot(df_por_gl, aes(x=pass, y=goout, color=pass)) + ge
   theme_minimal() + theme(legend.position = "none", axis.text=element_text(size=16), axis.title=element_text(size=16), 
                           plot.title=element_text(size=18))
 # export final plot
-jpeg("images/goout_dist_plot.jpg", width=1000, height=600)
-grid.arrange(goout_dist_plot_por, goout_dist_plot_maths, ncol=2)
+jpeg("images/preprocessing/goout_dist_plot.jpg", width=1000, height=600)
+grid.arrange(goout_dist_plot_maths, goout_dist_plot_por, ncol=2)
 dev.off()
 
 
@@ -230,6 +229,7 @@ cor(df_por$goout, df_por$G3, method="spearman") # -0.104
 cor(df_por$absences, df_por$G3, method="pearson") # -0.091
 # portuguese goout vs absences
 cor(df_por$goout, df_por$absences, method="spearman") # 0.104
+# maths failures vs g3
 
 
 # plotting correlations of goout and absences
@@ -245,7 +245,7 @@ goout_absences_plot_por <- ggplot(df_por_gl, aes(x=goout, y=absences, color=pass
         plot.subtitle = element_text(size=16), strip.text = element_text(size=14), 
         legend.text=element_text(size=14), legend.title=element_blank())
 # export final plot
-jpeg("images/goout_absences_plot.jpg", width=1000, height=500)
+jpeg("images/preprocessing/goout_absences_plot.jpg", width=1000, height=500)
 grid.arrange(goout_absences_plot_maths, goout_absences_plot_por, ncol=2)
 dev.off()
 
@@ -269,9 +269,9 @@ schoolsup_plot <- ggplot(schoolsup_df, aes(x=grade, y=supportrate, fill=grade)) 
 famsup_plot <- ggplot(famsup_df, aes(x=grade, y=famsuprate, fill=grade)) + geom_bar(stat="identity") + facet_wrap(~subject) + 
   theme_minimal() + theme(axis.text=element_text(size=16), axis.title=element_text(size=16), plot.title=element_text(size=18),
                           strip.text = element_text(size=14), legend.text=element_text(size=14), legend.title=element_blank(), 
-                          axis.title.x=element_blank()) + ggtitle("Extra Educational Support")
+                          axis.title.x=element_blank()) + ggtitle("Family Educational Support")
 # export final plot
-jpeg("images/famsup_schoolsup_plot.jpg", width=1000, height=600)
+jpeg("images/preprocessing/famsup_schoolsup_plot.jpg", width=1000, height=600)
 grid.arrange(schoolsup_plot, famsup_plot, ncol = 2)
 dev.off()
 

@@ -5,6 +5,7 @@ library(dplyr)
 library(plyr)
 library(gridExtra)
 library(ggplot2)
+### DECISION TREES ###
 
 ### Predicting Pass/Fail without G1 and without G2 ###
 ## MATHS ##
@@ -190,13 +191,13 @@ predictions <-predict(balanced_model, test_data, type = "class")
 conf_matrix_balanced_por <- table(predictions, test_data$pass)
 balanced_accuracy_por <- mean(predictions == test$pass)
 ## Figures
-jpeg("images/base_plot_por_balanced.jpg", width=500, height=600)
+jpeg("images/decisiontree/base_plot_por_balanced.jpg", width=500, height=600)
 rpart.plot(balanced_model, main="Portuguese (Balanced)", yesno=2)
 dev.off()
-jpeg("images/cp_plot_por_balanced.jpg", width=500, height=600)
+jpeg("images/decisiontree/cp_plot_por_balanced.jpg", width=500, height=600)
 cp_plot_por <- plotcp(balanced_model, cex.lab=1, sub="Portuguese (Balanced)") 
 dev.off()
-jpeg("images/conf_matrix_por_balanced.jpg", width=500, height=600)
+jpeg("images/decisiontree/conf_matrix_por_balanced.jpg", width=500, height=600)
 fourfoldplot(conf_matrix_balanced_por, main = "Portuguese (Balanced)")
 dev.off()
 # Pruning the balanced tree
@@ -205,7 +206,7 @@ predictions_pruned <- predict(model_pruned, test_data, type = "class")
 conf_matrix_pruned_por <- table(predictions_pruned, test_data$pass)
 accuracy_pruned_por <- mean(predictions_pruned == test_data$pass)
 # PLOTS
-jpeg("images/conf_matrix_pruned_por_balanced.jpg", width=500, height=600)
+jpeg("images/decisiontree/conf_matrix_pruned_por_balanced.jpg", width=500, height=600)
 fourfoldplot(conf_matrix_pruned_maths, main = "Portuguese")
 dev.off()
 

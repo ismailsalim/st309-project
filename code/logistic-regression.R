@@ -1,5 +1,7 @@
 library(caret)
 library(ROCR)
+### LOGISTIC REGRESSION ###
+
 ### Predicting maths and portuguese grade levels (aggregated G3) without G1 and without G2
 ## MATH
 # train-test split
