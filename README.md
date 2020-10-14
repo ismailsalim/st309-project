@@ -1,8 +1,8 @@
 # Final Project for Introductory Data Analytics at LSE
 
-![](images/grades_dist_plot.jpg)
+<img src=images/grades_dist_plot.jpg height="300">
 
-Code repository with simple machine learning models to predict secondary school student performance.
+Code for simple machine learning models to predict secondary school student performance.
 
 Original paper can be found [here](https://www.researchgate.net/publication/228780408_Using_data_mining_to_predict_secondary_school_student_performance).
 
